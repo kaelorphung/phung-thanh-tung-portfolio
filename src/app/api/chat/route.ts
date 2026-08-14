@@ -1,7 +1,5 @@
-import {
-  convertToModelMessages,
-  streamText,
-} from "ai";
+
+import { convertToModelMessages, streamText } from "ai";
 import { createOpenAICompatible } from "@ai-sdk/openai-compatible";
 
 const nvidia = createOpenAICompatible({
@@ -57,6 +55,7 @@ Skills:
 - CSS
 
 Projects:
+
 1. Attack & Defense Security Lab
    Focused on security monitoring, centralized logging,
    endpoint monitoring, SIEM investigation, Wazuh,
@@ -105,3 +104,4 @@ export async function POST(req: Request) {
     );
   }
 }
+
