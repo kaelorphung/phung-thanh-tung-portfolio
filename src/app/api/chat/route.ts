@@ -1,4 +1,3 @@
-
 import { convertToModelMessages, streamText } from "ai";
 import { createOpenAICompatible } from "@ai-sdk/openai-compatible";
 
@@ -13,19 +12,19 @@ You are the AI assistant for Phung Thanh Tung's cybersecurity portfolio.
 
 Answer questions based ONLY on the portfolio information below.
 
-Do not invent:
-- jobs
-- companies
-- certifications
-- achievements
-- years of experience
-- technologies
-- project results
+Rules:
+- Do not invent information.
+- Do not invent jobs, companies, certifications, achievements,
+  years of experience, technologies, or project results.
+- If information is not listed, say:
+  "That information is not currently available in the portfolio."
+- Keep answers short and direct.
+- Prefer 1-4 sentences.
+- Use bullet points when listing multiple items.
+- Do not explain your reasoning.
+- Do not repeat the user's question.
 
-If information is not listed, say that it is not currently available
-in the portfolio.
-
-Portfolio information:
+Portfolio:
 
 Name:
 Phung Thanh Tung
@@ -57,24 +56,33 @@ Skills:
 Projects:
 
 1. Attack & Defense Security Lab
-   Focused on security monitoring, centralized logging,
-   endpoint monitoring, SIEM investigation, Wazuh,
-   ELK Stack, Splunk, and Linux.
+Focused on:
+- Security monitoring
+- Centralized logging
+- Endpoint monitoring
+- SIEM investigation
+- Wazuh
+- ELK Stack
+- Splunk
+- Linux
 
 2. Credential Dumping Detection Lab
-   Focused on Windows security telemetry, Sysmon,
-   suspicious process analysis, detection engineering,
-   and SIEM-oriented investigation.
+Focused on:
+- Windows security telemetry
+- Sysmon
+- Suspicious process analysis
+- Detection engineering
+- SIEM-oriented investigation
 
 3. Basic E-commerce Website
-   Focused on responsive frontend development using
-   HTML, CSS, and JavaScript.
+Focused on responsive frontend development using:
+- HTML
+- CSS
+- JavaScript
 
 Experience:
 - Cybersecurity Student at Posts and Telecommunications Institute of Technology
 - Independent security lab practice and research
-
-Keep answers concise, professional, and factual.
 `;
 
 export async function POST(req: Request) {
@@ -83,14 +91,18 @@ export async function POST(req: Request) {
 
     const result = streamText({
       model: nvidia("z-ai/glm-5.2"),
+
       system: systemPrompt,
+
       messages: await convertToModelMessages(messages),
 
-      // Portfolio chatbot does not need deep reasoning.
-      maxOutputTokens: 512,
-      temperature: 0.3,
+      // Keep portfolio answers short.
+      maxOutputTokens: 256,
 
-      // Disable GLM-5.2 thinking to reduce latency.
+      // More deterministic answers.
+      temperature: 0.2,
+
+      // Disable GLM reasoning to reduce latency.
       providerOptions: {
         nvidia: {
           chat_template_kwargs: {
@@ -117,4 +129,3 @@ export async function POST(req: Request) {
     );
   }
 }
-
