@@ -1,3 +1,4 @@
+
 import { convertToModelMessages, streamText } from "ai";
 import { createOpenAICompatible } from "@ai-sdk/openai-compatible";
 
@@ -90,19 +91,17 @@ export async function POST(req: Request) {
     const { messages } = await req.json();
 
     const result = streamText({
-      model: nvidia("z-ai/glm-5.2"),
+      model: nvidia("z-ai/glm4.7"),
 
       system: systemPrompt,
 
       messages: await convertToModelMessages(messages),
 
-      // Keep portfolio answers short.
+      // Short answers = faster response
       maxOutputTokens: 256,
-
-      // More deterministic answers.
       temperature: 0.2,
 
-      // Disable GLM reasoning to reduce latency.
+      // Disable reasoning for faster portfolio responses
       providerOptions: {
         nvidia: {
           chat_template_kwargs: {
@@ -129,3 +128,4 @@ export async function POST(req: Request) {
     );
   }
 }
+
