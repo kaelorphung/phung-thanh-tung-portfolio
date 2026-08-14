@@ -1,14 +1,13 @@
-
 import {
   convertToModelMessages,
   streamText,
 } from "ai";
 import { createOpenAICompatible } from "@ai-sdk/openai-compatible";
 
-const deepseek = createOpenAICompatible({
-  name: "deepseek",
-  apiKey: process.env.DEEPSEEK_API_KEY,
-  baseURL: "https://api.deepseek.com",
+const nvidia = createOpenAICompatible({
+  name: "nvidia",
+  apiKey: process.env.NVIDIA_API_KEY,
+  baseURL: "https://integrate.api.nvidia.com/v1",
 });
 
 const systemPrompt = `
@@ -84,7 +83,7 @@ export async function POST(req: Request) {
     const { messages } = await req.json();
 
     const result = streamText({
-      model: deepseek("deepseek-v4-flash"),
+      model: nvidia("z-ai/glm-5.2"),
       system: systemPrompt,
       messages: await convertToModelMessages(messages),
     });
@@ -102,8 +101,7 @@ export async function POST(req: Request) {
         headers: {
           "Content-Type": "application/json",
         },
-      }
+      },
     );
   }
 }
-
