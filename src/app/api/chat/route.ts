@@ -85,6 +85,19 @@ export async function POST(req: Request) {
       model: nvidia("z-ai/glm-5.2"),
       system: systemPrompt,
       messages: await convertToModelMessages(messages),
+
+      // Portfolio chatbot does not need deep reasoning.
+      maxOutputTokens: 512,
+      temperature: 0.3,
+
+      // Disable GLM-5.2 thinking to reduce latency.
+      providerOptions: {
+        nvidia: {
+          chat_template_kwargs: {
+            enable_thinking: false,
+          },
+        },
+      },
     });
 
     return result.toUIMessageStreamResponse();
