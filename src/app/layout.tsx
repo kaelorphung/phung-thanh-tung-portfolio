@@ -14,8 +14,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL("http://localhost:3000"),
-
+  metadataBase: new URL("https://phung-thanh-tung-portfolio.vercel.app"),
   title: {
     default: "Phung Thanh Tung | Cybersecurity Student & Security Researcher",
     template: "%s | Phung Thanh Tung",

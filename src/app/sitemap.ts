@@ -2,8 +2,7 @@ import type { MetadataRoute } from "next";
 import { projects } from "@/data/projects";
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const baseUrl = "http://localhost:3000";
-
+  const baseUrl = "https://phung-thanh-tung-portfolio.vercel.app";
   return [
     {
       url: baseUrl,
