@@ -91,7 +91,7 @@ export async function POST(req: Request) {
     const { messages } = await req.json();
 
     const result = streamText({
-      model: nvidia("z-ai/glm4.7"),
+      model: nvidia("z-ai/glm-5.2"),
 
       system: systemPrompt,
 
@@ -99,9 +99,11 @@ export async function POST(req: Request) {
 
       // Short answers = faster response
       maxOutputTokens: 256,
+
+      // More deterministic for portfolio Q&A
       temperature: 0.2,
 
-      // Disable reasoning for faster portfolio responses
+      // Disable reasoning/thinking for lower latency
       providerOptions: {
         nvidia: {
           chat_template_kwargs: {
